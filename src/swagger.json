@@ -1,1036 +1,4019 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
-    "version": "1.0.0",
-    "title": "Swagger Petstore",
-    "termsOfService": "http://swagger.io/terms/",
-    "contact": {
-      "email": "apiteam@swagger.io"
-    },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    "version": "1.0",
+    "title": "V2 APIs",
+    "description": "The V2 APIs of Bitpack.me provide better developer experience. If you're still on V1 of APIs we request you to start working on upgrading to V2 APIs.",
+    "contact": {}
+  },
+  "host": "api-alpha.bitpack.me",
+  "basePath": "/",
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "name": "apikey",
+      "in": "header"
     }
   },
-  "host": "petstore.swagger.io",
-  "basePath": "/v2",
-  "tags": [
-    {
-      "name": "pet",
-      "description": "Everything about your Pets",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
-    },
-    {
-      "name": "store",
-      "description": "Access to Petstore orders"
-    },
-    {
-      "name": "user",
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
-    }
-  ],
   "schemes": [
-    "https",
-    "http"
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
-    "/pet": {
+    "/v2/send_otp": {
       "post": {
+        "description": "Sends OTP to the email address provided. There can be a maximum of 3 OTP attempts every 5 minutes.",
+        "summary": "Send OTP Email",
         "tags": [
-          "pet"
+          "Misc"
         ],
-        "summary": "Add a new pet to the store",
-        "description": "",
-        "operationId": "addPet",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
+        "operationId": "SendOTPEmail",
+        "deprecated": false,
         "produces": [
-          "application/xml",
-          "application/json"
+          "application/json; charset=utf-8"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "put": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Update an existing pet",
-        "description": "",
-        "operationId": "updatePet",
-        "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Pet object that needs to be added to the store",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/findByStatus": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Finds Pets by status",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "findPetsByStatus",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status values that need to be considered for filter",
-            "required": true,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "available",
-                "pending",
-                "sold"
-              ],
-              "default": "available"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid status value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/findByTags": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Finds Pets by tags",
-        "description": "Muliple tags can be provided with comma separated strings. Use         tag1, tag2, tag3 for testing.",
-        "operationId": "findPetsByTags",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "description": "Tags to filter by",
-            "required": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid tag value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ],
-        "deprecated": true
-      }
-    },
-    "/pet/{petId}": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Find pet by ID",
-        "description": "Returns a single pet",
-        "operationId": "getPetById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet to return",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          }
-        },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Updates a pet in the store with form data",
-        "description": "",
-        "operationId": "updatePetWithForm",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Email address to which we need to send OTP."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "examples": {
+              "application/json; charset=utf-8": "\"pending\""
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Vary": {
+                "type": "string",
+                "default": "Origin"
+              },
+              "Access-Control-Allow-Credentials": {
+                "type": "string",
+                "default": "true"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "9"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"9-CpmbHNiQJCd9kgfeUtnSpmfKpl4\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Wed, 09 Mar 2022 06:03:50 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Errorformat1"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "errors": [
+                  {
+                    "value": "+918490082541",
+                    "msg": "Email format is wrong!",
+                    "param": "email",
+                    "location": "body"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Vary": {
+                "type": "string",
+                "default": "Origin"
+              },
+              "Access-Control-Allow-Credentials": {
+                "type": "string",
+                "default": "true"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "103"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"67-mCWmNVHn0SzA//Ip0pb2Jg097OE\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Wed, 09 Mar 2022 06:03:02 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/verify_otp": {
+      "post": {
+        "description": "Verifies the OTP for an email address. Upon successful verification, creates a logged in session at the backend and sends a JWT token as response. This token must be added to the request header in each authenticated  \nrequest.\n\nFor refresh token there is a key that is available in the response as `refreshToken` which will be used in fetching a new token in refresh token api call.",
+        "summary": "Verify OTP Email",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "VerifyOTPEmail",
+        "deprecated": false,
         "produces": [
-          "application/xml",
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Email address at which OTP was send"
+          },
+          {
+            "name": "otp",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "OTP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            },
+            "examples": {
+              "application/json": {
+                "user": {
+                  "id": 10,
+                  "username": null,
+                  "phone": null,
+                  "phoneVerified": false,
+                  "email": "shivin@bitpack.me",
+                  "emailVerified": true,
+                  "active": true,
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                  "createDate": "2022-03-10T14:26:56.234Z",
+                  "updateDate": "2022-03-10T14:39:23.392Z",
+                  "about": null,
+                  "photo": null,
+                  "coverPhoto": null,
+                  "displayName": null
+                },
+                "result": "approved"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error5001"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "OTP verification failed."
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error5001"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Something Went Wrong!!"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/verify_otp2": {
+      "post": {
+        "description": "Verifies the OTP for an email address. Upon successful verification, creates a logged in session at the backend and sends a JWT token as response. This token must be added to the request header in each authenticated  \nrequest.\n\nFor refresh token there is a key that is available in the response as `refreshToken` which will be used in fetching a new token in refresh token api call.",
+        "summary": "Verify OTP Phone",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "VerifyOTPPhone",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Email address at which OTP was send"
+          },
+          {
+            "name": "otp",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "OTP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            },
+            "examples": {
+              "application/json": {
+                "user": {
+                  "id": 10,
+                  "username": null,
+                  "phone": null,
+                  "phoneVerified": false,
+                  "email": "shivin@bitpack.me",
+                  "emailVerified": true,
+                  "active": true,
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                  "createDate": "2022-03-10T14:26:56.234Z",
+                  "updateDate": "2022-03-10T14:39:23.392Z",
+                  "about": null,
+                  "photo": null,
+                  "coverPhoto": null,
+                  "displayName": null
+                },
+                "result": "approved"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error5001"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "OTP verification failed."
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error5001"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Something Went Wrong!!"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/nfts": {
+      "get": {
+        "description": "Fetch all NFTs in the system. Pagination and sorting is available.\n\nMultiple Query params are available to filter the response as per need. Please check Params section for Query options.",
+        "summary": "Query NFTs",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "QueryNFTs",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8",
           "application/json"
         ],
         "parameters": [
           {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet that needs to be updated",
+            "name": "creatorId",
+            "in": "query",
             "required": true,
             "type": "integer",
-            "format": "int64"
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/Success"
+              }
+            },
+            "examples": {
+              "application/json; charset=utf-8": [
+                {
+                  "id": 1,
+                  "title": "Nft11",
+                  "price": "$1.00",
+                  "royalty": 1,
+                  "quantity": 101,
+                  "deleted": false,
+                  "forSale": true,
+                  "movedToL1": false,
+                  "description": "Nft description",
+                  "url": "123e11111x1111111",
+                  "minted": false,
+                  "createdAt": "2022-03-09T06:11:08.381Z",
+                  "updatedAt": "2022-03-09T06:11:08.381Z",
+                  "owner": null,
+                  "creator": {
+                    "id": 1,
+                    "username": null,
+                    "phone": "+918490082541",
+                    "phoneVerified": true,
+                    "email": null,
+                    "emailVerified": false,
+                    "active": true,
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJwaG9uZSI6Iis5MTg0OTAwODI1NDEiLCJpYXQiOjE2NDY4MDU4OTksImV4cCI6MTY0NjgxMzA5OX0.0X4s5qqiK4yl_70jhaXQzMVzvGPEZSy1mmSFRl7JXkU",
+                    "createDate": "2022-03-04T13:12:22.770Z",
+                    "updateDate": "2022-03-09T06:04:59.057Z",
+                    "about": null,
+                    "photo": null,
+                    "coverPhoto": null,
+                    "displayName": null
+                  },
+                  "collection": {
+                    "id": 1,
+                    "createdAt": "2022-03-09T06:10:20.534Z",
+                    "updatedAt": "2022-03-09T06:10:20.534Z",
+                    "name": "Second Collection",
+                    "description": "Fist Collection to be used in BitPack.me",
+                    "photoUrl": "121"
+                  }
+                }
+              ],
+              "application/json": []
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Vary": {
+                "type": "string",
+                "default": "Origin"
+              },
+              "Access-Control-Allow-Credentials": {
+                "type": "string",
+                "default": "true"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "942"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"3ae-V1WEcjIHhWH9r4Dv2uvcPbP7U6A\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Wed, 09 Mar 2022 06:11:50 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/404Error1"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Object Not Found"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/500Error1"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Something went wrong!"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "default": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/nft": {
+      "post": {
+        "description": "Save NFT of the User with tags and Collection details.",
+        "summary": "Create NFT",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "CreateNFT",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8",
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "title",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Title of the NFT."
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Nft Description. ( Not mandatory )"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Price of the tags. To be saved in paise. Value of 100 means 1 INR."
+          },
+          {
+            "name": "url",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Url of the Nft fetch from Cloudinary."
+          },
+          {
+            "name": "tags",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Comma separated ID of tags. ( Not mandatory )"
+          },
+          {
+            "name": "royalty",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Percentage of Royalty coming from Sales that goes to the creator(s). This is expressed in basis points (1 - 10000)"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Quantity of the Nft copies."
+          },
+          {
+            "name": "forSale",
+            "in": "formData",
+            "required": true,
+            "type": "boolean",
+            "description": "For Sale value of NFT. (boolean) Default=False ( Not mandatory )"
+          },
+          {
+            "name": "royaltyToOwner",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "The share of sales that will go to curr Owner of the NFT. Expressed in basis points (0 - 10000). If there is no owner, this goes to creator."
+          },
+          {
+            "name": "royaltyToPrevOwner",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "The share of sales that will go to prev owner. Expressed in basis points (0 - 10000). If there is no previous owner, then this goes to the current owner. If there is no current owner, this goes to creator."
+          },
+          {
+            "name": "animation",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "An animation URL of the NFT"
+          },
+          {
+            "name": "externalUrl",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "An external URL that could represent the game or anything else"
+          },
+          {
+            "name": "properties",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "An arbitrary set of properties. They must be valid JSON"
+          },
+          {
+            "name": "creatorShare",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The share of splits that goes in between creators. The sum should be 10000 basis points."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success1"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "title": "Nft11",
+                "price": "$1.00",
+                "royalty": 1,
+                "quantity": 100,
+                "description": "Nft description",
+                "url": "https://somethingurl/third11",
+                "tags": [
+                  {
+                    "id": 1,
+                    "createdAt": "2022-02-25T11:36:47.098Z",
+                    "updatedAt": "2022-02-25T11:36:47.098Z",
+                    "name": "hill"
+                  },
+                  {
+                    "id": 5,
+                    "createdAt": "2022-03-07T13:34:56.086Z",
+                    "updatedAt": "2022-03-07T13:34:56.086Z",
+                    "name": "mountains"
+                  }
+                ],
+                "creator": {
+                  "id": 10,
+                  "username": null,
+                  "phone": null,
+                  "phoneVerified": false,
+                  "email": "shivin@bitpack.me",
+                  "emailVerified": true,
+                  "active": true,
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                  "createDate": "2022-03-10T14:26:56.234Z",
+                  "updateDate": "2022-03-10T17:03:18.756Z",
+                  "about": null,
+                  "photo": null,
+                  "coverPhoto": null,
+                  "displayName": null
+                },
+                "collection": {
+                  "id": 16,
+                  "createdAt": "2022-03-10T17:10:58.819Z",
+                  "updatedAt": "2022-03-10T17:10:58.819Z",
+                  "name": "thirdCollection21",
+                  "description": "Fist Collection to be used in BitPack.me",
+                  "photoUrl": "https://somethingurl/third11",
+                  "owner": {
+                    "id": 10,
+                    "username": null,
+                    "phone": null,
+                    "phoneVerified": false,
+                    "email": "shivin@bitpack.me",
+                    "emailVerified": true,
+                    "active": true,
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                    "createDate": "2022-03-10T14:26:56.234Z",
+                    "updateDate": "2022-03-10T17:03:18.756Z",
+                    "about": null,
+                    "photo": null,
+                    "coverPhoto": null,
+                    "displayName": null
+                  }
+                },
+                "id": 20,
+                "deleted": false,
+                "forSale": true,
+                "movedToL1": false,
+                "minted": false,
+                "createdAt": "2022-03-10T17:12:31.430Z",
+                "updatedAt": "2022-03-10T17:12:31.430Z"
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Vary": {
+                "type": "string",
+                "default": "Origin"
+              },
+              "Access-Control-Allow-Credentials": {
+                "type": "string",
+                "default": "true"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "26"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"1a-FjoKMoujSG+ebBqk8fyCUmOqLj0\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Wed, 09 Mar 2022 06:11:08 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/BadRequest4001"
+              }
+            },
+            "examples": {
+              "application/json": [
+                {
+                  "errors": {
+                    "msg": "Bad Request, Collection not owned by user."
+                  }
+                }
+              ]
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/404ErrorforTagsorCollection.1"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Object Not Found"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/collection": {
+      "post": {
+        "description": "This endpoint is to create Collections for the logged in User.",
+        "summary": "Create Collection",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "CreateCollection",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
           },
           {
             "name": "name",
             "in": "formData",
-            "description": "Updated name of the pet",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "description": "Updated status of the pet",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Deletes a pet",
-        "description": "",
-        "operationId": "deletePet",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "Pet id to delete",
             "required": true,
-            "type": "integer",
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
+            "type": "string",
+            "description": "Name of the Collection."
           },
-          "404": {
-            "description": "Pet not found"
-          }
-        },
-        "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/{petId}/uploadImage": {
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "uploads an image",
-        "description": "",
-        "operationId": "uploadFile",
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet to update",
+            "name": "description",
+            "in": "formData",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "description": "Description of the collection."
           },
           {
-            "name": "additionalMetadata",
+            "name": "url",
             "in": "formData",
-            "description": "Additional data to pass to server",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "file",
-            "in": "formData",
-            "description": "file to upload",
-            "required": false,
-            "type": "file"
+            "required": true,
+            "type": "string",
+            "description": "Url of the collection image stored in cloudinary."
           }
         ],
         "responses": {
-          "200": {
-            "description": "successful operation",
+          "201": {
+            "description": "Created",
             "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
+              "$ref": "#/definitions/Success2"
+            },
+            "examples": {
+              "application/json": {
+                "name": "thirdCollection2",
+                "description": "Fist Collection to be used in BitPack.me",
+                "photoUrl": "https://somethingurl/",
+                "owner": {
+                  "id": 7,
+                  "username": "Shivin",
+                  "phone": null,
+                  "phoneVerified": true,
+                  "email": "shivin.agarwal15@gmail.com",
+                  "emailVerified": false,
+                  "active": true,
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InNoaXZpbi5hZ2Fyd2FsMTVAZ21haWwuY29tIiwiaWF0IjoxNjQ2NjUyNjgwLCJleHAiOjE2NDY2NTk4ODB9.I96X_kdC2VKUg1IQWG0HjW5Cf6AIePyAtHFLzrHzFo8",
+                  "createDate": "2022-03-03T08:28:24.313Z",
+                  "updateDate": "2022-03-07T11:31:20.624Z",
+                  "about": null,
+                  "photo": null,
+                  "coverPhoto": null,
+                  "displayName": null
+                },
+                "id": 13,
+                "createdAt": "2022-03-10T16:35:07.818Z",
+                "updatedAt": "2022-03-10T16:35:07.818Z"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/400Error1"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Object Already exists"
+                  }
+                ]
+              }
+            },
+            "headers": {}
           }
-        },
-        "security": [
+        }
+      },
+      "get": {
+        "description": "Fetch collections. By default it fetches 100 collections orders by DESC on Id.\n\nMultiple Query params are available for filtering check Query params.",
+        "summary": "Get all Collections",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "GetallCollections",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Id of the User."
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Id of the Collection."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Limit of records thatis required.Default value is 100."
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of records that are required to skip. Default value is 0"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Sort order"
           }
-        ]
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/404Error3"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Object Not Found"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/500Error3"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Object Not Found"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/SuccessResponse1"
+              }
+            },
+            "examples": {
+              "application/json": [
+                {
+                  "id": 16,
+                  "createdAt": "2022-03-10T17:10:58.819Z",
+                  "updatedAt": "2022-03-10T17:10:58.819Z",
+                  "name": "thirdCollection21",
+                  "description": "Fist Collection to be used in BitPack.me",
+                  "photoUrl": "https://somethingurl/third11",
+                  "owner": {
+                    "id": 10,
+                    "username": null,
+                    "phone": null,
+                    "phoneVerified": false,
+                    "email": "shivin@bitpack.me",
+                    "emailVerified": true,
+                    "active": true,
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                    "createDate": "2022-03-10T14:26:56.234Z",
+                    "updateDate": "2022-03-10T17:03:18.756Z",
+                    "about": null,
+                    "photo": null,
+                    "coverPhoto": null,
+                    "displayName": null
+                  }
+                }
+              ]
+            },
+            "headers": {}
+          }
+        }
       }
     },
-    "/store/inventory": {
-      "get": {
+    "/v2/tags": {
+      "post": {
+        "description": "Save tags to be used in NFTs.\n\nThe tag has to be comma separated.",
+        "summary": "Save Tags",
         "tags": [
-          "store"
+          "Misc"
         ],
-        "summary": "Returns pet inventories by status",
-        "description": "Returns a map of status codes to quantities",
-        "operationId": "getInventory",
+        "operationId": "SaveTags",
+        "deprecated": false,
+        "produces": [
+          "application/json",
+          "text/plain"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "tags",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Name of the tags. Comma separated."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/Success3"
+              }
+            },
+            "examples": {
+              "application/json": [
+                {
+                  "id": 9,
+                  "createdAt": "2022-03-07T13:36:09.245Z",
+                  "updatedAt": "2022-03-07T13:36:09.245Z",
+                  "name": "Mountains"
+                },
+                {
+                  "id": 8,
+                  "createdAt": "2022-03-07T13:35:22.350Z",
+                  "updatedAt": "2022-03-07T13:35:22.350Z",
+                  "name": "black"
+                },
+                {
+                  "name": "!",
+                  "creator": {
+                    "id": 10,
+                    "username": null,
+                    "phone": null,
+                    "phoneVerified": false,
+                    "email": "shivin@bitpack.me",
+                    "emailVerified": true,
+                    "active": true,
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                    "createDate": "2022-03-10T14:26:56.234Z",
+                    "updateDate": "2022-03-10T17:03:18.756Z",
+                    "about": null,
+                    "photo": null,
+                    "coverPhoto": null,
+                    "displayName": null
+                  },
+                  "id": 29,
+                  "createdAt": "2022-03-10T17:47:26.904Z",
+                  "updatedAt": "2022-03-10T17:47:26.904Z"
+                }
+              ]
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "examples": {
+              "text/plain": "Invalid Token"
+            },
+            "headers": {}
+          },
+          "default": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "Fetch all the tags.",
+        "summary": "Get Tags",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "GetTags",
+        "deprecated": false,
         "produces": [
           "application/json"
         ],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "OK",
             "schema": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "integer",
-                "format": "int32"
+              "type": "array",
+              "default": "",
+              "items": {
+                "$ref": "#/definitions/SuccessExample"
               }
-            }
+            },
+            "examples": {
+              "application/json": [
+                {
+                  "id": 31,
+                  "createdAt": "2022-03-10T17:49:11.917Z",
+                  "updatedAt": "2022-03-10T17:49:11.917Z",
+                  "name": "Green"
+                },
+                {
+                  "id": 30,
+                  "createdAt": "2022-03-10T17:49:05.740Z",
+                  "updatedAt": "2022-03-10T17:49:05.740Z",
+                  "name": "Grren"
+                },
+                {
+                  "id": 29,
+                  "createdAt": "2022-03-10T17:47:26.904Z",
+                  "updatedAt": "2022-03-10T17:47:26.904Z",
+                  "name": "!"
+                },
+                {
+                  "id": 28,
+                  "createdAt": "2022-03-10T13:08:35.349Z",
+                  "updatedAt": "2022-03-10T13:08:35.349Z",
+                  "name": "]"
+                },
+                {
+                  "id": 27,
+                  "createdAt": "2022-03-10T13:08:35.340Z",
+                  "updatedAt": "2022-03-10T13:08:35.340Z",
+                  "name": "c"
+                },
+                {
+                  "id": 26,
+                  "createdAt": "2022-03-10T13:08:35.324Z",
+                  "updatedAt": "2022-03-10T13:08:35.324Z",
+                  "name": "e"
+                },
+                {
+                  "id": 25,
+                  "createdAt": "2022-03-10T13:08:35.317Z",
+                  "updatedAt": "2022-03-10T13:08:35.317Z",
+                  "name": "l"
+                },
+                {
+                  "id": 24,
+                  "createdAt": "2022-03-10T13:08:35.313Z",
+                  "updatedAt": "2022-03-10T13:08:35.313Z",
+                  "name": "b"
+                },
+                {
+                  "id": 23,
+                  "createdAt": "2022-03-10T13:08:35.299Z",
+                  "updatedAt": "2022-03-10T13:08:35.299Z",
+                  "name": "y"
+                },
+                {
+                  "id": 22,
+                  "createdAt": "2022-03-10T13:08:35.285Z",
+                  "updatedAt": "2022-03-10T13:08:35.285Z",
+                  "name": "k"
+                },
+                {
+                  "id": 21,
+                  "createdAt": "2022-03-10T13:08:35.274Z",
+                  "updatedAt": "2022-03-10T13:08:35.274Z",
+                  "name": " "
+                },
+                {
+                  "id": 20,
+                  "createdAt": "2022-03-10T13:08:35.268Z",
+                  "updatedAt": "2022-03-10T13:08:35.268Z",
+                  "name": ","
+                },
+                {
+                  "id": 19,
+                  "createdAt": "2022-03-10T13:08:35.261Z",
+                  "updatedAt": "2022-03-10T13:08:35.261Z",
+                  "name": "s"
+                },
+                {
+                  "id": 18,
+                  "createdAt": "2022-03-10T13:08:35.254Z",
+                  "updatedAt": "2022-03-10T13:08:35.254Z",
+                  "name": "i"
+                },
+                {
+                  "id": 17,
+                  "createdAt": "2022-03-10T13:08:35.249Z",
+                  "updatedAt": "2022-03-10T13:08:35.249Z",
+                  "name": "a"
+                },
+                {
+                  "id": 16,
+                  "createdAt": "2022-03-10T13:08:35.244Z",
+                  "updatedAt": "2022-03-10T13:08:35.244Z",
+                  "name": "t"
+                },
+                {
+                  "id": 15,
+                  "createdAt": "2022-03-10T13:08:35.238Z",
+                  "updatedAt": "2022-03-10T13:08:35.238Z",
+                  "name": "n"
+                },
+                {
+                  "id": 14,
+                  "createdAt": "2022-03-10T13:08:35.232Z",
+                  "updatedAt": "2022-03-10T13:08:35.232Z",
+                  "name": "u"
+                },
+                {
+                  "id": 13,
+                  "createdAt": "2022-03-10T13:08:35.225Z",
+                  "updatedAt": "2022-03-10T13:08:35.225Z",
+                  "name": "o"
+                },
+                {
+                  "id": 12,
+                  "createdAt": "2022-03-10T13:08:35.217Z",
+                  "updatedAt": "2022-03-10T13:08:35.217Z",
+                  "name": "M"
+                },
+                {
+                  "id": 11,
+                  "createdAt": "2022-03-10T13:08:35.210Z",
+                  "updatedAt": "2022-03-10T13:08:35.210Z",
+                  "name": "\""
+                },
+                {
+                  "id": 10,
+                  "createdAt": "2022-03-10T13:08:35.185Z",
+                  "updatedAt": "2022-03-10T13:08:35.185Z",
+                  "name": "["
+                },
+                {
+                  "id": 9,
+                  "createdAt": "2022-03-07T13:36:09.245Z",
+                  "updatedAt": "2022-03-07T13:36:09.245Z",
+                  "name": "Mountains"
+                },
+                {
+                  "id": 8,
+                  "createdAt": "2022-03-07T13:35:22.350Z",
+                  "updatedAt": "2022-03-07T13:35:22.350Z",
+                  "name": "black"
+                },
+                {
+                  "id": 7,
+                  "createdAt": "2022-03-07T13:34:56.130Z",
+                  "updatedAt": "2022-03-07T13:34:56.130Z",
+                  "name": "blue"
+                },
+                {
+                  "id": 6,
+                  "createdAt": "2022-03-07T13:34:56.120Z",
+                  "updatedAt": "2022-03-07T13:34:56.120Z",
+                  "name": "sky"
+                },
+                {
+                  "id": 5,
+                  "createdAt": "2022-03-07T13:34:56.086Z",
+                  "updatedAt": "2022-03-07T13:34:56.086Z",
+                  "name": "mountains"
+                },
+                {
+                  "id": 4,
+                  "createdAt": "2022-02-25T12:03:32.033Z",
+                  "updatedAt": "2022-02-25T12:03:32.033Z",
+                  "name": "Black"
+                },
+                {
+                  "id": 3,
+                  "createdAt": "2022-02-25T12:03:32.000Z",
+                  "updatedAt": "2022-02-25T12:03:32.000Z",
+                  "name": "green"
+                },
+                {
+                  "id": 2,
+                  "createdAt": "2022-02-25T11:36:47.107Z",
+                  "updatedAt": "2022-02-25T11:36:47.107Z",
+                  "name": "420"
+                },
+                {
+                  "id": 1,
+                  "createdAt": "2022-02-25T11:36:47.098Z",
+                  "updatedAt": "2022-02-25T11:36:47.098Z",
+                  "name": "hill"
+                }
+              ]
+            },
+            "headers": {}
           }
-        },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
+        }
       }
     },
-    "/store/order": {
-      "post": {
+    "/v2/user/{userID}": {
+      "get": {
+        "description": "Fetch User Info based on Given ID",
+        "summary": "Fetch User Info",
         "tags": [
-          "store"
+          "Misc"
         ],
-        "summary": "Place an order for a pet",
-        "description": "",
-        "operationId": "placeOrder",
+        "operationId": "FetchUserInfo",
+        "deprecated": false,
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "order placed for purchasing the pet",
+            "name": "userID",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/Order"
-            }
+            "type": "integer",
+            "format": "int32",
+            "description": "ID of the User"
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Order"
-            }
-          },
-          "400": {
-            "description": "Invalid Order"
-          }
-        }
-      }
-    },
-    "/store/order/{orderId}": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value >= 1 and <= 10.         Other values will generated exceptions",
-        "operationId": "getOrderById",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "ID of pet that needs to be fetched",
-            "required": true,
-            "type": "integer",
-            "maximum": 10,
-            "minimum": 1,
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Order"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
+              "$ref": "#/definitions/SuccessResponse2"
+            },
+            "examples": {
+              "application/json": {
+                "id": 10,
+                "username": null,
+                "phone": null,
+                "phoneVerified": false,
+                "email": "shivin@bitpack.me",
+                "emailVerified": true,
+                "active": true,
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                "createDate": "2022-03-10T14:26:56.234Z",
+                "updateDate": "2022-03-10T17:03:18.756Z",
+                "about": null,
+                "photo": null,
+                "coverPhoto": null,
+                "displayName": null
+              }
+            },
+            "headers": {}
           },
           "404": {
-            "description": "Order not found"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Delete purchase order by ID",
-        "description": "For valid response try integer IDs with positive integer value.         Negative or non-integer values will generate API errors",
-        "operationId": "deleteOrder",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "ID of the order that needs to be deleted",
-            "required": true,
-            "type": "integer",
-            "minimum": 1,
-            "format": "int64"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/404Error3"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Object Not Found"
+                  }
+                ]
+              }
+            },
+            "headers": {}
           },
-          "404": {
-            "description": "Order not found"
-          }
-        }
-      }
-    },
-    "/user": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "createUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Created user object",
-            "required": true,
+          "500": {
+            "description": "Internal Server Error",
             "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/createWithArray": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Creates list of users with given input array",
-        "description": "",
-        "operationId": "createUsersWithArrayInput",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "List of user object",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
+              "$ref": "#/definitions/500Error3"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Something went wrong!"
+                  }
+                ]
               }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
+            },
+            "headers": {}
           }
         }
       }
     },
-    "/user/createWithList": {
-      "post": {
+    "/v2/user": {
+      "patch": {
+        "description": "Update Username and Display name of the User.",
+        "summary": "Update User",
         "tags": [
-          "user"
+          "Misc"
         ],
-        "summary": "Creates list of users with given input array",
-        "description": "",
-        "operationId": "createUsersWithListInput",
+        "operationId": "UpdateUser",
+        "deprecated": false,
         "produces": [
-          "application/xml",
           "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "List of user object",
+            "name": "x-access-token",
+            "in": "header",
             "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/login": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs user into the system",
-        "description": "",
-        "operationId": "loginUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "username",
-            "in": "query",
-            "description": "The user name for login",
+            "in": "formData",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Username. Unique in the system for each user."
           },
           {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
+            "name": "display_name",
+            "in": "formData",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Display Name of the User."
+          },
+          {
+            "name": "photoUrl",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Url of the profile picsture of the logged in user."
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "OK",
             "schema": {
-              "type": "string"
+              "$ref": "#/definitions/SuccessResponse3"
+            },
+            "examples": {
+              "application/json": {
+                "id": 10,
+                "username": "shivinbit",
+                "phone": null,
+                "phoneVerified": false,
+                "email": "shivin@bitpack.me",
+                "emailVerified": true,
+                "active": true,
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+                "createDate": "2022-03-10T14:26:56.234Z",
+                "updateDate": "2022-03-10T18:31:23.279Z",
+                "about": null,
+                "photo": null,
+                "coverPhoto": null,
+                "displayName": "funkyBitPack"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/400Error3"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Username or Display Name is required",
+                    "param": "username",
+                    "location": "body"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/l1addresses": {
+      "get": {
+        "summary": "Get L1 Addresses Copy",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "GetL1AddressesCopy",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/l1transfer": {
+      "post": {
+        "description": "Wallet ID is obtained by the `GET /l1addresses` call",
+        "summary": "Transfer to L1 Copy",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "TransfertoL1Copy",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "walletAddress",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "An arbitrary address on L1. Either this or walletId is required"
+          },
+          {
+            "name": "chainId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "This is used along with walletAddress. Ignored if passed with walletId"
+          },
+          {
+            "name": "nftId",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "The NFT ID that is to be transferred."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success4"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "mintRes": {
+                  "txn": "",
+                  "explorerUrl": ""
+                }
+              }
             },
             "headers": {
-              "X-Rate-Limit": {
-                "type": "integer",
-                "format": "int32",
-                "description": "calls per hour allowed by the user"
-              },
-              "X-Expires-After": {
+              "X-Powered-By": {
                 "type": "string",
-                "format": "date-time",
-                "description": "date in UTC when token expires"
+                "default": "Express"
+              },
+              "Vary": {
+                "type": "string",
+                "default": "Origin"
+              },
+              "Access-Control-Allow-Credentials": {
+                "type": "string",
+                "default": "true"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "54"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"36-n7t4cwwhBGwdaKG0h/73MfUJHHg\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Wed, 16 Mar 2022 11:42:07 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
               }
             }
-          },
-          "400": {
-            "description": "Invalid username/password supplied"
           }
         }
       }
     },
-    "/user/logout": {
-      "get": {
+    "/generate_signature": {
+      "post": {
+        "description": "Used to generate the signature URL for cloudinary secure upload from cloud side",
+        "summary": "Generate Signature Cloudinary Copy",
         "tags": [
-          "user"
+          "Misc"
         ],
-        "summary": "Logs out current logged in user session",
-        "description": "",
-        "operationId": "logoutUser",
+        "operationId": "GenerateSignatureCloudinaryCopy",
+        "deprecated": false,
         "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/{username}": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Get user by user name",
-        "description": "",
-        "operationId": "getUserByName",
-        "produces": [
-          "application/xml",
           "application/json"
         ],
         "parameters": [
           {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "name": "x-access-token",
+            "in": "header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": ""
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          },
-          "400": {
-            "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
+            "description": "",
+            "headers": {}
           }
         }
-      },
-      "put": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Updated user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "name that need to be updated",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Updated user object",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid user supplied"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "deleteUser",
-        "produces": [
-          "application/xml",
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
-      }
-    }
-  },
-  "securityDefinitions": {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
       }
     },
-    "api_key": {
-      "type": "apiKey",
-      "name": "api_key",
-      "in": "header"
+    "/v2/buy": {
+      "post": {
+        "summary": "Buy NFT",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "BuyNFT",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "nftId",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "The ID of the NFT that is being bought"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/l1address": {
+      "post": {
+        "description": "Chain ID is an enum defined as\n\n``` typescript\nexport enum Chains {\n  Sol,  // 0\n  Eth,  // 1\n  Polygon  // 2\n}\n\n```",
+        "summary": "Add L1 Address",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "AddL1Address",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "address",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "The address to be added"
+          },
+          {
+            "name": "chainId",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": "Integer ID of the chain"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/refreshtoken": {
+      "post": {
+        "description": "Refresh Token API. Need to send previous token and refresh token. If both are correct it will generate a new token and refresh token for the FE to use. A new Refresh token will be generated. this new refresh token will be used to fetch a new token.",
+        "summary": "Refresh Token",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "RefreshToken",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Token which was received previously."
+          },
+          {
+            "name": "refresh_token",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Refresh Token which was received previously."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse3"
+            },
+            "examples": {
+              "application/json": {
+                "id": 10,
+                "username": "shivinbit",
+                "phone": null,
+                "phoneVerified": false,
+                "email": "shivin@bitpack.me",
+                "emailVerified": true,
+                "active": true,
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwicGhvbmUiOm51bGwsImVtYWlsIjoic2hpdmluQGJpdHBhY2subWUiLCJpYXQiOjE2NDY5OTAwODcsImV4cCI6MTY0Njk5NzI4N30.AZheQZ060iLaI6MrvWxThQMgom4PtHuYE0lldfY7kMg",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5OTAwODcwMDAifQ.eyJ1c2VyX2lkIjoxMCwicGhvbmUiOm51bGwsImVtYWlsIjoic2hpdmluQGJpdHBhY2subWUiLCJpYXQiOjE2NDY5OTAwODd9.BYVjcAs0uiX4eJcq8UaT_fxI2IGILLLI8ZX0dkhotdY",
+                "createDate": "2022-03-10T14:26:56.234Z",
+                "updateDate": "2022-03-10T18:47:49.032Z",
+                "about": null,
+                "photo": null,
+                "coverPhoto": null,
+                "displayName": "funkyBitPack"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error4003"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Incorrect details"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/nft/{nftId}": {
+      "patch": {
+        "description": "Update NFT to update for sale or add a message to it for other users to see.",
+        "summary": "Patch NFT",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "PatchNFT",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "nftId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "x-access-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "forSale",
+            "in": "formData",
+            "required": true,
+            "type": "boolean",
+            "description": "For Sale flag."
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success5"
+            },
+            "examples": {
+              "application/json": {
+                "id": 21,
+                "title": "Nft11",
+                "price": "$0.00",
+                "royalty": 1,
+                "quantity": 100,
+                "deleted": false,
+                "forSale": "true",
+                "movedToL1": false,
+                "description": "Nft description",
+                "url": "https://somethingurl/third11",
+                "minted": false,
+                "createdAt": "2022-03-14T11:51:30.762Z",
+                "updatedAt": "2022-03-15T14:27:12.942Z",
+                "message": "This is my NFT. Please buy!"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error4005"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Invalid body",
+                    "param": "forSale",
+                    "location": "body"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error4003"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Something went wrong!"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "default": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/v2/username": {
+      "post": {
+        "description": "Check availability of the username.",
+        "summary": "POST username",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "POSTusername",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Success6"
+            },
+            "examples": {
+              "application/json": {
+                "success": true
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/UsernameExists1"
+            },
+            "examples": {
+              "application/json": {
+                "errors": [
+                  {
+                    "msg": "Username is taken"
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "Order": {
+    "Error": {
+      "title": "Error",
+      "example": {
+        "value": "+918490082541",
+        "msg": "Email format is wrong!",
+        "param": "email",
+        "location": "body"
+      },
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "param": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "msg",
+        "param",
+        "location"
+      ]
+    },
+    "Errorformat1": {
+      "title": "Errorformat1",
+      "example": {
+        "errors": [
+          {
+            "value": "+918490082541",
+            "msg": "Email format is wrong!",
+            "param": "email",
+            "location": "body"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "Error2": {
+      "title": "Error2",
+      "example": {
+        "msg": "Something Went Wrong!!"
+      },
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "msg"
+      ]
+    },
+    "Error5001": {
+      "title": "Error5001",
+      "example": {
+        "errors": [
+          {
+            "msg": "Something Went Wrong!!"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error2"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "SuccessResponse": {
+      "title": "SuccessResponse",
+      "example": {
+        "user": {
+          "id": 10,
+          "username": null,
+          "phone": null,
+          "phoneVerified": false,
+          "email": "shivin@bitpack.me",
+          "emailVerified": true,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+          "createDate": "2022-03-10T14:26:56.234Z",
+          "updateDate": "2022-03-10T14:39:23.392Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        },
+        "result": "approved"
+      },
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "result": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user",
+        "result"
+      ]
+    },
+    "User": {
+      "title": "User",
+      "example": {
+        "id": 10,
+        "username": null,
+        "phone": null,
+        "phoneVerified": false,
+        "email": "shivin@bitpack.me",
+        "emailVerified": true,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+        "createDate": "2022-03-10T14:26:56.234Z",
+        "updateDate": "2022-03-10T14:39:23.392Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "petId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "quantity": {
           "type": "integer",
           "format": "int32"
         },
-        "shipDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "description": "Order Status",
-          "enum": [
-            "placed",
-            "approved",
-            "delivered"
-          ]
-        },
-        "complete": {
-          "type": "boolean",
-          "default": false
-        }
-      },
-      "xml": {
-        "name": "Order"
-      }
-    },
-    "Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Category"
-      }
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
         "username": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
           "type": "string"
         },
         "phone": {
           "type": "string"
         },
-        "userStatus": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User Status"
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
         }
       },
-      "xml": {
-        "name": "User"
-      }
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "refreshToken",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
     },
-    "Tag": {
+    "Successsresponse": {
+      "title": "Successsresponse",
+      "example": {
+        "user": {
+          "id": 1,
+          "username": null,
+          "phone": "+918490082541",
+          "phoneVerified": true,
+          "email": null,
+          "emailVerified": false,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJwaG9uZSI6Iis5MTg0OTAwODI1NDEiLCJpYXQiOjE2NDY4MDU4OTksImV4cCI6MTY0NjgxMzA5OX0.0X4s5qqiK4yl_70jhaXQzMVzvGPEZSy1mmSFRl7JXkU",
+          "createDate": "2022-03-04T13:12:22.770Z",
+          "updateDate": "2022-03-08T10:31:21.023Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        },
+        "result": "approved"
+      },
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User1"
+        },
+        "result": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "user",
+        "result"
+      ]
+    },
+    "User1": {
+      "title": "User1",
+      "example": {
+        "id": 1,
+        "username": null,
+        "phone": "+918490082541",
+        "phoneVerified": true,
+        "email": null,
+        "emailVerified": false,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJwaG9uZSI6Iis5MTg0OTAwODI1NDEiLCJpYXQiOjE2NDY4MDU4OTksImV4cCI6MTY0NjgxMzA5OX0.0X4s5qqiK4yl_70jhaXQzMVzvGPEZSy1mmSFRl7JXkU",
+        "createDate": "2022-03-04T13:12:22.770Z",
+        "updateDate": "2022-03-08T10:31:21.023Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
       "type": "object",
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
+    },
+    "Success": {
+      "title": "Success",
+      "example": {
+        "id": 1,
+        "title": "Nft11",
+        "price": "$1.00",
+        "royalty": 1,
+        "quantity": 101,
+        "deleted": false,
+        "forSale": true,
+        "movedToL1": false,
+        "description": "Nft description",
+        "url": "123e11111x1111111",
+        "minted": false,
+        "createdAt": "2022-03-09T06:11:08.381Z",
+        "updatedAt": "2022-03-09T06:11:08.381Z",
+        "owner": null,
+        "creator": {
+          "id": 1,
+          "username": null,
+          "phone": "+918490082541",
+          "phoneVerified": true,
+          "email": null,
+          "emailVerified": false,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJwaG9uZSI6Iis5MTg0OTAwODI1NDEiLCJpYXQiOjE2NDY4MDU4OTksImV4cCI6MTY0NjgxMzA5OX0.0X4s5qqiK4yl_70jhaXQzMVzvGPEZSy1mmSFRl7JXkU",
+          "createDate": "2022-03-04T13:12:22.770Z",
+          "updateDate": "2022-03-09T06:04:59.057Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        },
+        "collection": {
+          "id": 1,
+          "createdAt": "2022-03-09T06:10:20.534Z",
+          "updatedAt": "2022-03-09T06:10:20.534Z",
+          "name": "Second Collection",
+          "description": "Fist Collection to be used in BitPack.me",
+          "photoUrl": "121"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "royalty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "forSale": {
+          "type": "boolean"
+        },
+        "movedToL1": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "minted": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "creator": {
+          "$ref": "#/definitions/Creator"
+        },
+        "collection": {
+          "$ref": "#/definitions/Collection"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "price",
+        "royalty",
+        "quantity",
+        "deleted",
+        "forSale",
+        "movedToL1",
+        "description",
+        "url",
+        "minted",
+        "createdAt",
+        "updatedAt",
+        "owner",
+        "creator",
+        "collection"
+      ]
+    },
+    "Creator": {
+      "title": "Creator",
+      "example": {
+        "id": 1,
+        "username": null,
+        "phone": "+918490082541",
+        "phoneVerified": true,
+        "email": null,
+        "emailVerified": false,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJwaG9uZSI6Iis5MTg0OTAwODI1NDEiLCJpYXQiOjE2NDY4MDU4OTksImV4cCI6MTY0NjgxMzA5OX0.0X4s5qqiK4yl_70jhaXQzMVzvGPEZSy1mmSFRl7JXkU",
+        "createDate": "2022-03-04T13:12:22.770Z",
+        "updateDate": "2022-03-09T06:04:59.057Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
+    },
+    "Collection": {
+      "title": "Collection",
+      "example": {
+        "id": 1,
+        "createdAt": "2022-03-09T06:10:20.534Z",
+        "updatedAt": "2022-03-09T06:10:20.534Z",
+        "name": "Second Collection",
+        "description": "Fist Collection to be used in BitPack.me",
+        "photoUrl": "121"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "photoUrl": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "name",
+        "description",
+        "photoUrl"
+      ]
+    },
+    "404Error1": {
+      "title": "404Error1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Object Not Found"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error2"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "500Error1": {
+      "title": "500Error1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Something went wrong!"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error2"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "properties": {
+      "title": "properties",
+      "example": {
+        "key": "value",
+        "key2": 2,
+        "key3": [
+          2,
+          "two",
+          {
+            "what": 2
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "key2": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "key3": {
+          "example": [
+            {
+              "what": 2
+            }
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Key31"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "key2",
+        "key3"
+      ]
+    },
+    "Key3": {
+      "title": "Key3",
+      "example": {
+        "what": 2
+      },
+      "type": "object",
+      "properties": {
+        "what": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "what"
+      ]
+    },
+    "Key31": {
+      "title": "Key31",
+      "type": "object",
+      "properties": {
+        "what": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "creatorShare": {
+      "title": "creatorShare",
+      "example": {
+        "shares": [
+          {
+            "id": 2,
+            "share": "2000"
+          },
+          {
+            "id": 1,
+            "share": "8000"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "shares": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Share"
+          }
+        }
+      },
+      "required": [
+        "shares"
+      ]
+    },
+    "Share": {
+      "title": "Share",
+      "example": {
+        "id": 2,
+        "share": "2000"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "share": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "share"
+      ]
+    },
+    "Success1": {
+      "title": "Success1",
+      "example": {
+        "title": "Nft11",
+        "price": "$1.00",
+        "royalty": 1,
+        "quantity": 100,
+        "description": "Nft description",
+        "url": "https://somethingurl/third11",
+        "tags": [
+          {
+            "id": 1,
+            "createdAt": "2022-02-25T11:36:47.098Z",
+            "updatedAt": "2022-02-25T11:36:47.098Z",
+            "name": "hill"
+          },
+          {
+            "id": 5,
+            "createdAt": "2022-03-07T13:34:56.086Z",
+            "updatedAt": "2022-03-07T13:34:56.086Z",
+            "name": "mountains"
+          }
+        ],
+        "creator": {
+          "id": 10,
+          "username": null,
+          "phone": null,
+          "phoneVerified": false,
+          "email": "shivin@bitpack.me",
+          "emailVerified": true,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+          "createDate": "2022-03-10T14:26:56.234Z",
+          "updateDate": "2022-03-10T17:03:18.756Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        },
+        "collection": {
+          "id": 16,
+          "createdAt": "2022-03-10T17:10:58.819Z",
+          "updatedAt": "2022-03-10T17:10:58.819Z",
+          "name": "thirdCollection21",
+          "description": "Fist Collection to be used in BitPack.me",
+          "photoUrl": "https://somethingurl/third11",
+          "owner": {
+            "id": 10,
+            "username": null,
+            "phone": null,
+            "phoneVerified": false,
+            "email": "shivin@bitpack.me",
+            "emailVerified": true,
+            "active": true,
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+            "createDate": "2022-03-10T14:26:56.234Z",
+            "updateDate": "2022-03-10T17:03:18.756Z",
+            "about": null,
+            "photo": null,
+            "coverPhoto": null,
+            "displayName": null
+          }
+        },
+        "id": 20,
+        "deleted": false,
+        "forSale": true,
+        "movedToL1": false,
+        "minted": false,
+        "createdAt": "2022-03-10T17:12:31.430Z",
+        "updatedAt": "2022-03-10T17:12:31.430Z"
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "royalty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "creator": {
+          "$ref": "#/definitions/Creator1"
+        },
+        "collection": {
+          "$ref": "#/definitions/Collection1"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "forSale": {
+          "type": "boolean"
+        },
+        "movedToL1": {
+          "type": "boolean"
+        },
+        "minted": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "price",
+        "royalty",
+        "quantity",
+        "description",
+        "url",
+        "tags",
+        "creator",
+        "collection",
+        "id",
+        "deleted",
+        "forSale",
+        "movedToL1",
+        "minted",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Tag": {
+      "title": "Tag",
+      "example": {
+        "id": 1,
+        "createdAt": "2022-02-25T11:36:47.098Z",
+        "updatedAt": "2022-02-25T11:36:47.098Z",
+        "name": "hill"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
         },
         "name": {
           "type": "string"
         }
       },
-      "xml": {
-        "name": "Tag"
-      }
-    },
-    "Pet": {
-      "type": "object",
       "required": [
-        "name",
-        "photoUrls"
-      ],
+        "id",
+        "createdAt",
+        "updatedAt",
+        "name"
+      ]
+    },
+    "Creator1": {
+      "title": "Creator1",
+      "example": {
+        "id": 10,
+        "username": null,
+        "phone": null,
+        "phoneVerified": false,
+        "email": "shivin@bitpack.me",
+        "emailVerified": true,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+        "createDate": "2022-03-10T14:26:56.234Z",
+        "updateDate": "2022-03-10T17:03:18.756Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
+      "type": "object",
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "int32"
         },
-        "category": {
-          "$ref": "#/definitions/Category"
+        "username": {
+          "type": "string"
         },
-        "name": {
-          "type": "string",
-          "example": "doggie"
+        "phone": {
+          "type": "string"
         },
-        "photoUrls": {
-          "type": "array",
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
-          },
-          "items": {
-            "type": "string"
-          }
+        "phoneVerified": {
+          "type": "boolean"
         },
-        "tags": {
-          "type": "array",
-          "xml": {
-            "name": "tag",
-            "wrapped": true
-          },
-          "items": {
-            "$ref": "#/definitions/Tag"
-          }
+        "email": {
+          "type": "string"
         },
-        "status": {
-          "type": "string",
-          "description": "pet status in the store",
-          "enum": [
-            "available",
-            "pending",
-            "sold"
-          ]
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
         }
       },
-      "xml": {
-        "name": "Pet"
-      }
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "refreshToken",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
     },
-    "ApiResponse": {
+    "Collection1": {
+      "title": "Collection1",
+      "example": {
+        "id": 16,
+        "createdAt": "2022-03-10T17:10:58.819Z",
+        "updatedAt": "2022-03-10T17:10:58.819Z",
+        "name": "thirdCollection21",
+        "description": "Fist Collection to be used in BitPack.me",
+        "photoUrl": "https://somethingurl/third11",
+        "owner": {
+          "id": 10,
+          "username": null,
+          "phone": null,
+          "phoneVerified": false,
+          "email": "shivin@bitpack.me",
+          "emailVerified": true,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+          "createDate": "2022-03-10T14:26:56.234Z",
+          "updateDate": "2022-03-10T17:03:18.756Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        }
+      },
       "type": "object",
       "properties": {
-        "code": {
+        "id": {
           "type": "integer",
           "format": "int32"
         },
-        "type": {
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "photoUrl": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "name",
+        "description",
+        "photoUrl",
+        "owner"
+      ]
+    },
+    "Owner": {
+      "title": "Owner",
+      "example": {
+        "id": 10,
+        "username": null,
+        "phone": null,
+        "phoneVerified": false,
+        "email": "shivin@bitpack.me",
+        "emailVerified": true,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+        "createDate": "2022-03-10T14:26:56.234Z",
+        "updateDate": "2022-03-10T17:03:18.756Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "refreshToken",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
+    },
+    "Errors": {
+      "title": "Errors",
+      "example": {
+        "msg": "Bad Request, Collection not owned by user."
+      },
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "msg"
+      ]
+    },
+    "BadRequest4001": {
+      "title": "BadRequest4001",
+      "example": {
+        "errors": {
+          "msg": "Bad Request, Collection not owned by user."
+        }
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "$ref": "#/definitions/Errors"
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "404ErrorforTagsorCollection.1": {
+      "title": "404ErrorforTagsorCollection.1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Object Not Found"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "Success2": {
+      "title": "Success2",
+      "example": {
+        "name": "thirdCollection2",
+        "description": "Fist Collection to be used in BitPack.me",
+        "photoUrl": "https://somethingurl/",
+        "owner": {
+          "id": 7,
+          "username": "Shivin",
+          "phone": null,
+          "phoneVerified": true,
+          "email": "shivin.agarwal15@gmail.com",
+          "emailVerified": false,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InNoaXZpbi5hZ2Fyd2FsMTVAZ21haWwuY29tIiwiaWF0IjoxNjQ2NjUyNjgwLCJleHAiOjE2NDY2NTk4ODB9.I96X_kdC2VKUg1IQWG0HjW5Cf6AIePyAtHFLzrHzFo8",
+          "createDate": "2022-03-03T08:28:24.313Z",
+          "updateDate": "2022-03-07T11:31:20.624Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        },
+        "id": 13,
+        "createdAt": "2022-03-10T16:35:07.818Z",
+        "updatedAt": "2022-03-10T16:35:07.818Z"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "photoUrl": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner1"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "photoUrl",
+        "owner",
+        "id",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Owner1": {
+      "title": "Owner1",
+      "example": {
+        "id": 7,
+        "username": "Shivin",
+        "phone": null,
+        "phoneVerified": true,
+        "email": "shivin.agarwal15@gmail.com",
+        "emailVerified": false,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo3LCJlbWFpbCI6InNoaXZpbi5hZ2Fyd2FsMTVAZ21haWwuY29tIiwiaWF0IjoxNjQ2NjUyNjgwLCJleHAiOjE2NDY2NTk4ODB9.I96X_kdC2VKUg1IQWG0HjW5Cf6AIePyAtHFLzrHzFo8",
+        "createDate": "2022-03-03T08:28:24.313Z",
+        "updateDate": "2022-03-07T11:31:20.624Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
+    },
+    "400Error1": {
+      "title": "400Error1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Object Already exists"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "SuccessResponse1": {
+      "title": "SuccessResponse1",
+      "example": {
+        "id": 16,
+        "createdAt": "2022-03-10T17:10:58.819Z",
+        "updatedAt": "2022-03-10T17:10:58.819Z",
+        "name": "thirdCollection21",
+        "description": "Fist Collection to be used in BitPack.me",
+        "photoUrl": "https://somethingurl/third11",
+        "owner": {
+          "id": 10,
+          "username": null,
+          "phone": null,
+          "phoneVerified": false,
+          "email": "shivin@bitpack.me",
+          "emailVerified": true,
+          "active": true,
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+          "createDate": "2022-03-10T14:26:56.234Z",
+          "updateDate": "2022-03-10T17:03:18.756Z",
+          "about": null,
+          "photo": null,
+          "coverPhoto": null,
+          "displayName": null
+        }
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "photoUrl": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/Owner"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "name",
+        "description",
+        "photoUrl",
+        "owner"
+      ]
+    },
+    "404Error3": {
+      "title": "404Error3",
+      "example": {
+        "errors": [
+          {
+            "msg": "Object Not Found"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "500Error3": {
+      "title": "500Error3",
+      "example": {
+        "errors": [
+          {
+            "msg": "Object Not Found"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "Success3": {
+      "title": "Success3",
+      "example": {
+        "id": 9,
+        "createdAt": "2022-03-07T13:36:09.245Z",
+        "updatedAt": "2022-03-07T13:36:09.245Z",
+        "name": "Mountains"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "creator": {
+          "$ref": "#/definitions/Creator1"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "name"
+      ]
+    },
+    "SuccessExample": {
+      "title": "SuccessExample",
+      "example": {
+        "id": 31,
+        "createdAt": "2022-03-10T17:49:11.917Z",
+        "updatedAt": "2022-03-10T17:49:11.917Z",
+        "name": "Green"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "createdAt",
+        "updatedAt",
+        "name"
+      ]
+    },
+    "SuccessResponse2": {
+      "title": "SuccessResponse2",
+      "example": {
+        "id": 10,
+        "username": null,
+        "phone": null,
+        "phoneVerified": false,
+        "email": "shivin@bitpack.me",
+        "emailVerified": true,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+        "createDate": "2022-03-10T14:26:56.234Z",
+        "updateDate": "2022-03-10T17:03:18.756Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "refreshToken",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
+    },
+    "Errors14": {
+      "title": "Errors14",
+      "example": {
+        "msg": "Username or Display Name is required",
+        "param": "username",
+        "location": "body"
+      },
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        },
+        "param": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "msg",
+        "param",
+        "location"
+      ]
+    },
+    "400Error3": {
+      "title": "400Error3",
+      "example": {
+        "errors": [
+          {
+            "msg": "Username or Display Name is required",
+            "param": "username",
+            "location": "body"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors14"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "400ErrorUsernamealreadyexists1": {
+      "title": "400ErrorUsernamealreadyexists1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Username or Display Name is required",
+            "param": "username",
+            "location": "body"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors14"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "SuccessResponse3": {
+      "title": "SuccessResponse3",
+      "example": {
+        "id": 10,
+        "username": "shivinbit",
+        "phone": null,
+        "phoneVerified": false,
+        "email": "shivin@bitpack.me",
+        "emailVerified": true,
+        "active": true,
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OCwiZXhwIjoxNjQ2OTM4OTk4fQ.yrmH9XcsFh9uUWEN0pEUP8k-FKF2GZ2k4-l3q_XMw_I",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjE2NDY5MzE3OTgwMDAifQ.eyJ1c2VyX2lkIjoxMCwiZW1haWwiOiJzaGl2aW5AYml0cGFjay5tZSIsImlhdCI6MTY0NjkzMTc5OH0.TPaxsMbGd4v1W85QqrGJ2Uycjp5ZsUctNpe7nKN9858",
+        "createDate": "2022-03-10T14:26:56.234Z",
+        "updateDate": "2022-03-10T18:31:23.279Z",
+        "about": null,
+        "photo": null,
+        "coverPhoto": null,
+        "displayName": "funkyBitPack"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneVerified": {
+          "type": "boolean"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailVerified": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string"
+        },
+        "updateDate": {
+          "type": "string"
+        },
+        "about": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "coverPhoto": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "phone",
+        "phoneVerified",
+        "email",
+        "emailVerified",
+        "active",
+        "token",
+        "refreshToken",
+        "createDate",
+        "updateDate",
+        "about",
+        "photo",
+        "coverPhoto",
+        "displayName"
+      ]
+    },
+    "Success4": {
+      "title": "Success4",
+      "example": {
+        "success": true,
+        "mintRes": {
+          "txn": "",
+          "explorerUrl": ""
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "mintRes": {
+          "$ref": "#/definitions/MintRes"
+        }
+      },
+      "required": [
+        "success",
+        "mintRes"
+      ]
+    },
+    "MintRes": {
+      "title": "MintRes",
+      "example": {
+        "txn": "",
+        "explorerUrl": ""
+      },
+      "type": "object",
+      "properties": {
+        "txn": {
+          "type": "string"
+        },
+        "explorerUrl": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "txn",
+        "explorerUrl"
+      ]
+    },
+    "Error4003": {
+      "title": "Error4003",
+      "example": {
+        "errors": [
+          {
+            "msg": "Incorrect details"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "RequiredParamError1": {
+      "title": "RequiredParamError1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Refresh token is required",
+            "param": "refresh_token",
+            "location": "body"
+          },
+          {
+            "msg": "Token is required",
+            "param": "token",
+            "location": "body"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors14"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "Success5": {
+      "title": "Success5",
+      "example": {
+        "id": 21,
+        "title": "Nft11",
+        "price": "$0.00",
+        "royalty": 1,
+        "quantity": 100,
+        "deleted": false,
+        "forSale": "true",
+        "movedToL1": false,
+        "description": "Nft description",
+        "url": "https://somethingurl/third11",
+        "minted": false,
+        "createdAt": "2022-03-14T11:51:30.762Z",
+        "updatedAt": "2022-03-15T14:27:12.942Z",
+        "message": "This is my NFT. Please buy!"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "royalty": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "forSale": {
+          "type": "string"
+        },
+        "movedToL1": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "minted": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
           "type": "string"
         },
         "message": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "id",
+        "title",
+        "price",
+        "royalty",
+        "quantity",
+        "deleted",
+        "forSale",
+        "movedToL1",
+        "description",
+        "url",
+        "minted",
+        "createdAt",
+        "updatedAt",
+        "message"
+      ]
+    },
+    "Error4005": {
+      "title": "Error4005",
+      "example": {
+        "errors": [
+          {
+            "msg": "Invalid body",
+            "param": "forSale",
+            "location": "body"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors14"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
+    },
+    "Success6": {
+      "title": "Success6",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "UsernameExists1": {
+      "title": "UsernameExists1",
+      "example": {
+        "errors": [
+          {
+            "msg": "Username is taken"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Errors"
+          }
+        }
+      },
+      "required": [
+        "errors"
+      ]
     }
   },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
-  }
+  "security": [
+    {
+      "apiKey": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Misc",
+      "description": ""
+    }
+  ]
 }
