@@ -1,17 +1,22 @@
 import "./App.css";
 import { RedocStandalone } from "redoc";
+import { Helmet } from "react-helmet";
 const swaggerJson = require("./swagger.json");
 
 function App() {
   return (
-    <RedocStandalone
-      spec={swaggerJson}
-      // specUrl="https://petstore.swagger.io/v2/swagger.json"
-      options={{
-        nativeScrollbars: true,
-        theme: { colors: { primary: { main: "#dd5522" } } },
-      }}
-    />
+    <>
+      <Helmet>
+        <title>Bitpack-API</title>
+      </Helmet>
+      <RedocStandalone
+        spec={swaggerJson}
+        options={{
+          nativeScrollbars: true,
+          theme: { colors: { primary: { main: "#dd5522" } } },
+        }}
+      />
+    </>
   );
 }
 
