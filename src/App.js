@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { RedocStandalone } from "redoc";
 const swaggerJson = require("./swagger.json");
